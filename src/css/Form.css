@@ -1,0 +1,22 @@
+body {
+  background-color: #E6EBF2;
+  font-family: Tienne, "Roboto", Arial, sans-serif;
+}
+
+.required {
+  color: red;
+}
+
+input, select {
+  padding: 12px;
+  font-size: 15px;
+  border: none;
+  border-bottom: 2px solid #dadce0;
+  outline: none;
+  background: transparent;
+  transition: border-color 0.2s;
+}
+
+input:focus, select:focus {
+  border-bottom: 2px solid #673ab7;
+}
