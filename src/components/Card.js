@@ -35,7 +35,7 @@ const HeaderCard = ({subtitle, formData, handleChange, fieldsVisible= true, resu
                                         name="department"
                                         value={formData.departments}
                                         onChange={handleChange}
-                                        required={true}
+                                        required
                                     >
                                         <option value=''> ---- Select your Department ---- </option>
                                         {departments.map((dept, i) => (

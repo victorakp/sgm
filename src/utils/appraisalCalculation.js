@@ -1,18 +1,58 @@
 function getAverage(data) {
-    const totalAttendance= data.weeklyAttendance.reduce((sum, entry) => sum + Number(entry.attendance))
-    const totalServiceDays = data.weeklyAttendance.length()
+    if (!data.weeklyAttendance || data.weeklyAttendance.length === 0) return 0;
+
+    const totalAttendance= data.weeklyAttendance.reduce((sum, entry) => sum + (Number(entry.attendance) || 0), 0)
+    const totalServiceDays = data.weeklyAttendance.length
 
     const average = totalAttendance / totalServiceDays
 
     return average
 };
 
-function getPercentage(avg) {
-    return avg * 100
+function getPercentage(avg, data) {
+    const totalMembers = Number(data.totalMembers)
+    if (!totalMembers || totalMembers === 0) return 0;
+
+    return (avg/totalMembers) * 100
 }
 
-function getScore(perc, score){
-    return perc * score
+function getScore(perc, weight){
+    return (perc/100) * weight
 }
 
-export { getAverage, getPercentage, getScore }
+function getEvangelismPercentage(data){
+    const totalMembers = Number(data.totalMembers)
+    if (!totalMembers || totalMembers === 0) return 0;
+
+    const evangelism = Number(data.evangelism)
+    if (!evangelism || evangelism === 0) return 0;
+
+    return (evangelism/totalMembers) * 100
+}
+
+function getAppraisalSummary(data){
+    const weeklyAttendanceAverage = Math.round(getAverage(data) * 10) / 10
+    const weeklyAttendancePercentage = Math.round(getPercentage(weeklyAttendanceAverage, data) * 10) / 10
+    const weeklyAttendanceWeightedScore = Math.round(getScore(weeklyAttendancePercentage, 50) * 10) / 10
+
+    const evangelismPercentage = Math.round(getEvangelismPercentage(data) * 10) / 10
+    const evangelismAttendanceWeightedScore= Math.round(getScore(evangelismPercentage, 10) * 10) / 10
+
+    
+    const summary = {
+        weeklyServiceAttendance: {
+            average: weeklyAttendanceAverage,
+            percentage: weeklyAttendancePercentage,
+            weightedScore: weeklyAttendanceWeightedScore,
+        },
+        
+        evangelismAttendance: {
+            percentage: evangelismPercentage,
+            weightedScore: evangelismAttendanceWeightedScore
+        }
+    }
+
+    return summary
+}
+
+export { getAverage, getPercentage, getScore, getAppraisalSummary }

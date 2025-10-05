@@ -12,13 +12,13 @@ const DepartmentInfo = ({formData, handleChange, onNextButton}) => {
 
     return (
         <div 
-        style={{
-            padding: 16,
-            gap: 24,
-            display: 'flex',
-            flexDirection: 'column',
-            margin: 'auto'
-        }}
+            style={{
+                padding: 16,
+                gap: 24,
+                display: 'flex',
+                flexDirection: 'column',
+                margin: 'auto'
+            }}
         >
         <HeaderCard 
             subtitle='Department Information'

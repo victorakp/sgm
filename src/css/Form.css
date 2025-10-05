@@ -18,5 +18,37 @@ input, select {
 }
 
 input:focus, select:focus {
-  border-bottom: 2px solid #673ab7;
+  border-bottom: 2px solid #3B76EC;
+}
+
+.spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 32px;
+    height: 32px;
+    position: relative;
+}
+
+.spinner div {
+    position: absolute;
+    width: 6px;
+    height: 12px;
+    background: var(--primary-color);
+    border-radius: 4px;
+    animation: spin 1.2s linear infinite;
+}
+
+.spinner div:nth-child(1) { transform: rotate(0deg) translateY(-15px); animation-delay: 0s; }
+.spinner div:nth-child(2) { transform: rotate(45deg) translateY(-15px); animation-delay: 0.1s; }
+.spinner div:nth-child(3) { transform: rotate(90deg) translateY(-15px); animation-delay: 0.3s; }
+.spinner div:nth-child(4) { transform: rotate(135deg) translateY(-15px); animation-delay: 0.4s; }
+.spinner div:nth-child(5) { transform: rotate(180deg) translateY(-15px); animation-delay: 0.5s; }
+.spinner div:nth-child(6) { transform: rotate(225deg) translateY(-15px); animation-delay: 0.6s; }
+.spinner div:nth-child(7) { transform: rotate(270deg) translateY(-15px); animation-delay: 0.7s; }
+.spinner div:nth-child(8) { transform: rotate(315deg) translateY(-15px); animation-delay: 0.8s; }
+
+@keyframes spin {
+    0% { opacity: 1; }
+    100% { opacity: 0.1; }
 }

@@ -2,12 +2,10 @@ import React, { useEffect, useState } from 'react';
 
 import * as FormSection from './FormSection'
 import { HeaderCard } from './Card';
+import LoadingScreen from './LoadingScreen';
 
 import { getCurrentYear } from '../utils/dateUtils';
-import * as AppraisalCalc from '../utils/appraisalCalculation'
-
-import { collection, addDoc, query, where, getDocs } from "firebase/firestore"; 
-import { db } from '../firebase';
+import { onSubmitAppraisal } from '../utils/onSubmitAppraisal';
 
 const Form = () => {
   
@@ -15,6 +13,7 @@ const Form = () => {
 
   const [section, setSection] = useState(1)
 
+  const [loading, setLoading] = useState(false)
   
   const [formData, setFormData] = useState({
     department: "",
@@ -32,10 +31,7 @@ const Form = () => {
     churchCouncilIntervention: "none",
     additionalInfo: "none"
   })
-  
-  const next = () => setSection((x) => x + 1) //x represents current section
-  const previous = () => setSection((x) => x - 1) //x represents current section
-  
+    
   const handleFormChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -76,91 +72,78 @@ const Form = () => {
 
   const handleWeeklyAttendanceClearForm = () => setFormData({...formData, weeklyAttendance: [] })
 
-  
-  const  handleFormSubmit  = async (e) => {
-    e.preventDefault();
-    const {department, year, ...monthlyAppraisal} = formData
-
-    try {
-      const deptCollectionRef = collection(db, "Departments")
-      
-      const queryDeptName = query(deptCollectionRef, where("name", "==", department)) 
-      const queryNameSnapshot = await getDocs(queryDeptName)
-     
-      let deptDocRef
-      
-      if (!queryNameSnapshot.empty) {
-        deptDocRef = queryNameSnapshot.docs[0].ref
-      } else {
-        deptDocRef = await addDoc(deptCollectionRef, { name: department });
-      }
-      
-      const appraisalCollectionRef = collection(deptDocRef, "Appraisal") 
-      
-      const queryYear = query(appraisalCollectionRef, where("year", "==", year)) 
-      const queryYearSnapshot = await getDocs(queryYear)
-     
-      let appraisalDocRef
-      
-      if (!queryYearSnapshot.empty) {
-        appraisalDocRef = queryYearSnapshot.docs[0].ref
-      } else {
-        appraisalDocRef = await addDoc(appraisalCollectionRef, { year: year });
-      }
-
-      const monthlyAppraisalCollectionRef = collection(appraisalDocRef, "MonthlyAppraisal")
-
-      const queryMonth = query(appraisalCollectionRef, where("month", "==", monthlyAppraisal.month)) 
-      const queryMonthSnapshot = await getDocs(queryMonth)
-
-      let MonthlyAppraisalDocRef
-
-      if (!queryMonthSnapshot.empty) {
-        MonthlyAppraisalDocRef = queryMonthSnapshot.docs[0].ref
-      } else {
-        MonthlyAppraisalDocRef = await addDoc(monthlyAppraisalCollectionRef, { 
-          ...monthlyAppraisal
-        });
-      }  
-      
-    
-
-      
-      console.log("Document written with ID: ");
-      alert("Your Submission is successful")
-    } catch (e) {
-      console.error("Error adding document: ", e);
-      
-      alert("Submission Error...", e)
-      
+  const next = () => {
+    const sectionEl = document.querySelector(`[data-section = "${section}"]`)
+    if ( !sectionEl ){
+      console.warn("No section element found for section =", section)
+      return
     }
-  };
+
+    const inputs = sectionEl.querySelectorAll("input, select, textarea")
+
+    let allValid = true
+
+    for (let input of inputs){
+      if (!input.checkValidity()){
+        input.reportValidity()
+        allValid = false
+        break
+      }
+    }
+
+    if (allValid){ setSection((x) => x + 1)}      //x represents current section
+  } 
   
+  const previous = () => setSection((x) => x - 1) //x represents current section
+
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [section])
 
+  const isVisible = ( n ) => ({display: section === n ? "block" : "none"})
+
   return (
-    <form onSubmit={handleFormSubmit}>
-      {section === 1 && <FormSection.DepartmentInfo formData= {formData} handleChange={handleFormChange} onNextButton={next} onClear={handleClearForm}/>}
-      {section === 2 && <FormSection.WeeklyAttendance formData= {formData} handleChange={handleWeeklyAttendanceChange} onNextButton={next} onBackButton={previous} onClear={handleWeeklyAttendanceClearForm}/>}
-      {section === 3 && <FormSection.OtherAttendance formData= {formData} handleChange={handleFormChange} onNextButton={next} onBackButton={previous} onClear={handleClearForm}/>}     
-      {section === 4 && <FormSection.OtherInfo formData= {formData} handleChange={handleFormChange} onBackButton={previous} onClear={handleClearForm}/>}     
-      {section === 5 &&     
-        <div 
-          style={{
-            padding: 16,
-            gap: 24,
-            display: 'flex',
-            flexDirection: 'column',
-            margin: 'auto'
-          }}
-        >
-          {/* <HeaderCard formData= {formData} fieldsVisible= {false} result={true} subtitle={"Your response has been recorded."}/> */}
+    <form onSubmit={(e) => onSubmitAppraisal(e, formData, next, setLoading)}>
+      {/* {loading && <LoadingScreen/>}
 
-
-        </div>
-      }
+      {!loading &&  */}
+        <>
+          {/* SECTION 1 */}
+          <div data-section="1" style={isVisible(1)}>
+            <FormSection.DepartmentInfo formData= {formData} handleChange={handleFormChange} onNextButton={next} onClear={handleClearForm}/>
+          </div>
+          
+          {/* SECTION 2 */}
+          <div data-section="2" style={isVisible(2)}>
+            <FormSection.WeeklyAttendance formData= {formData} handleChange={handleWeeklyAttendanceChange} onNextButton={next} onBackButton={previous} onClear={handleWeeklyAttendanceClearForm}/>
+          </div>
+          
+          {/* SECTION 3 */}
+          <div data-section="3" style={isVisible(3)}>
+            <FormSection.OtherAttendance formData= {formData} handleChange={handleFormChange} onNextButton={next} onBackButton={previous} onClear={handleClearForm}/>    
+          </div>
+          
+          {/* SECTION 4 */}
+          <div data-section="4" style={isVisible(4)}>
+            <FormSection.OtherInfo formData= {formData} handleChange={handleFormChange} onBackButton={previous} onClear={handleClearForm}/>    
+          </div>
+          
+          {/* SECTION 5 */}  
+          <div data-section="5" style={isVisible(5)}>
+            <div 
+              style={{
+                padding: 16,
+                gap: 24,
+                display: 'flex',
+                flexDirection: 'column',
+                margin: 'auto'
+              }}
+            >
+              <HeaderCard formData= {formData} fieldsVisible= {false} result={true} subtitle={"Your response has been recorded."}/>
+            </div>
+          </div>
+        </>
+      {/* } */}
     </form>
   )
 }
