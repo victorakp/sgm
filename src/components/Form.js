@@ -31,6 +31,8 @@ const Form = () => {
     churchCouncilIntervention: "none",
     additionalInfo: "none"
   })
+
+  const [appSummary, setAppSummary] = useState({})
     
   const handleFormChange = (e) => {
     const { name, value } = e.target;
@@ -72,6 +74,8 @@ const Form = () => {
 
   const handleWeeklyAttendanceClearForm = () => setFormData({...formData, weeklyAttendance: [] })
 
+  const isVisible = ( n ) => ({display: section === n ? "block" : "none"})
+
   const next = () => {
     const sectionEl = document.querySelector(`[data-section = "${section}"]`)
     if ( !sectionEl ){
@@ -100,13 +104,10 @@ const Form = () => {
     window.scrollTo(0, 0)
   }, [section])
 
-  const isVisible = ( n ) => ({display: section === n ? "block" : "none"})
 
   return (
-    <form onSubmit={(e) => onSubmitAppraisal(e, formData, next, setLoading)}>
-      {/* {loading && <LoadingScreen/>}
-
-      {!loading &&  */}
+    <form onSubmit={(e) => onSubmitAppraisal(e, formData, next, setLoading, setAppSummary)}>
+      {section !== 5 ? 
         <>
           {/* SECTION 1 */}
           <div data-section="1" style={isVisible(1)}>
@@ -127,7 +128,11 @@ const Form = () => {
           <div data-section="4" style={isVisible(4)}>
             <FormSection.OtherInfo formData= {formData} handleChange={handleFormChange} onBackButton={previous} onClear={handleClearForm}/>    
           </div>
-          
+        </>
+
+      :
+
+        <>
           {/* SECTION 5 */}  
           <div data-section="5" style={isVisible(5)}>
             <div 
@@ -139,11 +144,12 @@ const Form = () => {
                 margin: 'auto'
               }}
             >
-              <HeaderCard formData= {formData} fieldsVisible= {false} result={true} subtitle={"Your response has been recorded."}/>
+              {console.log('firestore has calculated appSummary as: ,', appSummary)}
+              <HeaderCard formData={appSummary} fieldsVisible= {false} result={true} subtitle={"Your response has been recorded."} loading={loading} dropDownOpen={true}/>
             </div>
           </div>
         </>
-      {/* } */}
+      }
     </form>
   )
 }

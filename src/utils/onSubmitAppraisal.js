@@ -3,18 +3,21 @@ import { db } from '../firebase';
 
 import { getAppraisalSummary } from "./appraisalCalculation";
 
-const  onSubmitAppraisal  = async (e, data, next, setLoading) => {
+const  onSubmitAppraisal  = async (e, data, next, setLoading, setAppSummary) => {
   e.preventDefault();
 
-  // setLoading(true)
-
+  
   const summary = getAppraisalSummary(data)
-
+  
   const {department, year, ...monthlyAppraisal} = data
-
+  
   const computedData = {...monthlyAppraisal, AppraisalSummary: [summary]}
-
+  
+  setLoading(true)
+  next()
+  
   try {
+
     const deptCollectionRef = collection(db, "Departments")
     
     const queryDeptName = query(deptCollectionRef, where("name", "==", department)) 
@@ -55,8 +58,9 @@ const  onSubmitAppraisal  = async (e, data, next, setLoading) => {
       MonthlyAppraisalDocRef = await addDoc(monthlyAppraisalCollectionRef, {...computedData});
     }  
     
-    // setLoading(false)
-    next()
+    setAppSummary(summary)
+    setLoading(false)
+
   } catch (e) {
     console.error("Error adding document: ", e);      
     alert("Submission Error: " + e.message)
