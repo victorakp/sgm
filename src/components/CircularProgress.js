@@ -34,11 +34,12 @@ const CircularProgress = ({ size = 100, strokeWidth = 15, value = 0, weight, tex
                 y= "50%"
                 textAnchor= "middle"
                 dy= "0.3em"
-                fontSize= "32"
                 fontWeight= "bold"
                 fill='#000'
             >
-                {text} / {weight}
+                <tspan dy= "-0.2em" fontSize= "32">{text}</tspan>
+                <tspan dy= "0.6em" fontSize= "56" transform="skewX(-50)">⁄</tspan>
+                <tspan dy= "0.3em" fontSize= "32">{weight}</tspan>
             </text>
 
 

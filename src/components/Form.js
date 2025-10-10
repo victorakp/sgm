@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 
 import * as FormSection from './FormSection'
 import { HeaderCard } from './Card';
-import LoadingScreen from './LoadingScreen';
 
 import { getCurrentYear } from '../utils/dateUtils';
 import { onSubmitAppraisal } from '../utils/onSubmitAppraisal';
@@ -144,8 +143,7 @@ const Form = () => {
                 margin: 'auto'
               }}
             >
-              {console.log('firestore has calculated appSummary as: ,', appSummary)}
-              <HeaderCard formData={appSummary} fieldsVisible= {false} result={true} subtitle={"Your response has been recorded."} loading={loading} dropDownOpen={true}/>
+              <HeaderCard formData={appSummary} fieldsVisible= {false} result={true} subtitle={"Your response has been recorded."} loading={loading} />
             </div>
           </div>
         </>
