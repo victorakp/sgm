@@ -2,10 +2,9 @@ import React from 'react'
 
 import '../css/Form.css'
 
-
-const LoadingScreen = ({loadingText}) => {
+const LoadingIcon = ({loadingText}) => {
     return (
-        <div className='loading'>
+        <div className='loadingIconContainer'>
             <div className="spinner">
                 {Array.from({ length: 8 }).map((_, i) => <div key={i}/>)}
             </div>
@@ -16,4 +15,4 @@ const LoadingScreen = ({loadingText}) => {
     )
 }
 
-export default LoadingScreen
+export default LoadingIcon

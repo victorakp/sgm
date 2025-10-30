@@ -3,6 +3,7 @@ import React from 'react'
 import { ChevronDown, ChevronUp } from 'lucide-react'
 
 import CircularProgress from './CircularProgress'
+import LoadingIcon from './LoadingIcon'
 
 const FormResult = ({loading, data, text, dropDownState}) => {
     const { summaryOpen, setSummaryOpen } = dropDownState
@@ -23,17 +24,18 @@ const FormResult = ({loading, data, text, dropDownState}) => {
                         />
                     </>
                 :
-
-                    <>Loading</>
-                    
+                    <LoadingIcon />        
                 }
             </div>
 
             {loading === false && 
                 <>
                     <div style={{margin: 0, fontSize: 16, fontWeight: 'normal', padding: '24px 32px', display: 'flex', alignItems: 'center', gap: 2}} onClick={() => setSummaryOpen(x => !x)}>
-                        See Summary  
-                        {summaryOpen === false ? <ChevronDown size={16} style={{display: 'flex', justifyContent: 'center'}}/> : <ChevronUp size={16} style={{display: 'flex', justifyContent: 'center'}}/>}
+                        {summaryOpen === false ? 
+                            <> See Summary <ChevronDown size={16} style={{display: 'flex', justifyContent: 'center'}}/></>
+                        : 
+                            <> Close Summary <ChevronUp size={16} style={{display: 'flex', justifyContent: 'center'}}/></>
+                        }
                     </div>
                     
                     {summaryOpen &&
@@ -54,7 +56,7 @@ const FormResult = ({loading, data, text, dropDownState}) => {
                         </div>
                     }
                 </>
-            }            
+            }   
         </> 
     )
 }
