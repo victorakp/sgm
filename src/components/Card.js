@@ -8,26 +8,17 @@ const HeaderCard = ({subtitle, formData, handleChange, fieldsVisible= true, resu
     const [dropDownSelected, setDropDownSelected] = useState(false)
 
     return (
-        <div style={{
-            backgroundColor: '#fff',
-            border: '1px solid #BEC0C4', 
-            borderRadius: '16px',
-            width: '100%',
-            maxWidth: '710px',
-            margin: 'auto',
-            overflow: 'hidden'
-        }}>
-            <div style={{backgroundColor: '#3B76EC', height: 16}}/>
+        <div className='cardContainer' style= {{border: '1px solid #BEC0C4', borderBottom: 0}}>     
+            <div className='topStrip'/>
 
             <div>
-                <h1 style={{margin: 0, borderBottom: '1px solid #BEC0C4', fontSize: 24, padding: '24px 32px'}}>SGM Departmental Appraisal Form</h1>
+                <h1 className='formTitle'>SGM Departmental Appraisal Form</h1>
                 
                 {result === false ? (
                     <>
                         {fieldsVisible && <FormEntryDetails data={formData} handleChange={handleChange}/>}
 
-                        <h1 style={{borderBottom: '1px solid #BEC0C4', margin: 0, fontSize: 16, fontWeight: 'normal', padding: '24px 32px'}}>{subtitle}</h1>
-
+                        <h1 className='formTitle' style={{fontSize: 16, fontWeight: 'normal'}}> {subtitle} </h1>
                     </>
                 )  
 
@@ -45,20 +36,11 @@ const HeaderCard = ({subtitle, formData, handleChange, fieldsVisible= true, resu
 
 const QuestionCard = ({title, type, name, value, onChange, required}) => {
   return (
-    <div style={{
-        backgroundColor: '#fff',
-        borderBottom: '1px solid #BEC0C4', 
-        borderRadius: '16px',
-        width: '100%',
-        maxWidth: '710px',
-        margin: 'auto',
-        overflow: 'hidden'
-    }}>
-        <div style={{display: 'flex', flexDirection: 'column', gap: 24, padding: '24px 32px', overflow: 'hidden'}}>
+    <div className="cardContainer">
+        <div className= "card">
             <label> {title} <span className="required"> * </span></label>
             
             <input 
-                style={{maxWidth: '250px', width: '100%'}} 
                 required={required}
                 type={type}
                 name={name}    
@@ -74,30 +56,17 @@ const AttendanceCard = ({dates, arr, handleChange}) => {
     return(
         <>
             {dates.map((card, cardIndex) => (   
-                <div key={cardIndex} 
-                    style={{
-                        backgroundColor: '#fff',
-                        borderBottom: '1px solid #BEC0C4', 
-                        borderRadius: '16px',
-                        width: '100%',
-                        maxWidth: '710px',
-                        gap: 24,
-                        margin: 'auto',
-                        overflow: 'hidden'
-                        
-                    }}
-                >  
+                <div key={cardIndex} className="cardContainer">  
                     {card.map(date => {
                         const title = date.toDateString()
                         const value = arr[title]
 
                         return(
-                            <div key={title} style={{display: 'flex', flexDirection: 'column', gap: 24, padding: '24px 32px', overflow: 'hidden'}}>
+                            <div key={title} className= "card">
                                 <label> {title} <span className="required"> * </span></label>
                                 
                                 <input 
                                     key= {title}
-                                    style={{maxWidth: '250px', width: '100%'}} 
                                     required
                                     type="number"
                                     name="name"

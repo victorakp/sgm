@@ -3,8 +3,33 @@ body {
   font-family: Tienne, "Roboto", Arial, sans-serif;
 }
 
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 24px; 
+  padding: 24px 32px;
+  overflow: hidden
+}
+
+.cardContainer {
+  background-color: #fff;
+  border-bottom: 1px solid #BEC0C4; 
+  border-radius: 16px;
+  width: 100%;
+  max-width: 710px;
+  margin: auto;
+  overflow: hidden
+}
+
 .required {
   color: red;
+}
+
+.formTitle {
+  margin: 0;
+  border-bottom: 1px solid #BEC0C4;
+  font-size: 24px;
+  padding: 24px 32px
 }
 
 .fraction {
@@ -23,13 +48,17 @@ body {
   font-weight: 800;
   margin-left: 8px;
   transform: skewX(-50deg) translateY(-3px);
-  /* transform: translateY(3px); */
 }
 
 .fraction .denominator {
   font-size: 16px;
   margin-left: 32px;
   transform: translateY(-8px);
+}
+
+input {
+  max-width: 250px; 
+  width: 100%
 }
 
 input, select {
@@ -82,4 +111,9 @@ input:focus, select:focus {
 @keyframes spin {
     0% { opacity: 1; }
     100% { opacity: 0.1; }
+}
+
+.topStrip {
+  background-color: #3B76EC;
+  height: 16px
 }
