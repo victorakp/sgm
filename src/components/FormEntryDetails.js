@@ -7,19 +7,13 @@ import { departments, months } from "../constants/constants";
 
 const FormEntryDetails = ({data, handleChange }) => {
     return (
-        <div style={{borderBottom: '1px solid #BEC0C4', display: 'flex', flexDirection: 'row'}}>
-            <div style={{display: 'flex', flexDirection: 'column', gap: 24, padding: '24px 0px 32px 24px', width: '100%'}}>
+        <div className="formEntryDetails">
+            <div className='entry'>
                 <label> Department <span className="required"> * </span></label>
                 
                 <div style={{position: 'relative'}}>
                     <select 
-                        style={{
-                            width: '100%', 
-                            border: '1px solid #BEC0C4', 
-                            borderRadius: '8px', 
-                            padding: '16px', 
-                            appearance: 'none'
-                        }}
+                        className='entrySelect'
                         name="department"
                         value={data.departments}
                         onChange={handleChange}
@@ -35,18 +29,12 @@ const FormEntryDetails = ({data, handleChange }) => {
                 </div>
             </div>
 
-            <div style={{display: 'flex', flexDirection: 'column', gap: 24, padding: '24px 32px', width: '100%'}}>
+            <div className='entry' style={{paddingBottom: '32px'}}>
                 <label> Month <span className="required"> * </span></label>
                 
                 <div style={{position: 'relative'}}>
                     <select 
-                        style={{
-                            width: '100%', 
-                            border: '1px solid #BEC0C4', 
-                            borderRadius: '8px', 
-                            padding: '16px', 
-                            appearance: 'none'
-                        }}
+                        className='entrySelect'
                         name="month"
                         value={data.month}
                         onChange={handleChange}

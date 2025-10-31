@@ -40,8 +40,8 @@ const FormResult = ({loading, data, text, dropDownState}) => {
                     
                     {summaryOpen &&
                         <div style={{padding: '0px 32px 24px 32px', display: 'flex', flexDirection: 'column', gap: 32}}>
-                            <div style={{display: 'flex', flexDirection: 'row'}}>
-                                <div style={{fontWeight: 'bold', width: '35%'}}>Weekly Service Attendance:</div>
+                            <div className='summary'>
+                                <div className='summaryDetails'>Weekly Service Attendance:</div>
 
                                 <div style={{display: 'flex', flexDirection: 'column', gap: 8}}>
                                     <div>Average: {data.weeklyServiceAttendance.average}</div>
@@ -57,8 +57,8 @@ const FormResult = ({loading, data, text, dropDownState}) => {
                                 </div>
                             </div>
 
-                            <div style={{display: 'flex', flexDirection: 'row'}}>
-                                <div style={{fontWeight: 'bold', width: '35%'}}>Evangelism Attendance:</div>
+                            <div className='summary'>
+                                <div className='summaryDetails'>Evangelism Attendance:</div>
                                 <div>Appraisal Score:
                                     <div className="fraction">
                                         <div className="numerator">{data.evangelismAttendance.weightedScore}</div>

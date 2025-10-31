@@ -21,8 +21,27 @@ body {
   overflow: hidden
 }
 
-.required {
-  color: red;
+.formEntryDetails {
+  border-bottom: 1px solid #BEC0C4;
+  display: flex;
+  flex-direction: column;
+}
+
+.formEntryDetails .entry {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding: 24px 24px 8px;
+  width: 100%;
+  gap: 16px;
+}
+
+.formEntryDetails .entrySelect {
+  width: 100%;
+  border: 1px solid #BEC0C4; 
+  border-radius: 8px;
+  padding: 16px; 
+  appearance: none
 }
 
 .formTitle {
@@ -81,22 +100,26 @@ input:focus, select:focus {
   align-items: center;
 }
 
+.required {
+  color: red;
+}
+
 .spinner {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 32px;
-    height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 32px;
+  height: 32px;
 }
 
 .spinner div {
-    position: absolute;
-    width: 4px;
-    height: 8px;
-    background: blue;
-    border-radius: 4px;
-    animation: spin 1.2s linear infinite;
-    /* transform-origin: 20px center; */
+  position: absolute;
+  width: 4px;
+  height: 8px;
+  background: blue;
+  border-radius: 4px;
+  animation: spin 1.2s linear infinite;
+  /* transform-origin: 20px center; */
 }
 
 .spinner div:nth-child(1) { transform: rotate(0deg) translateY(-10px); animation-delay: 0s; }
@@ -108,12 +131,40 @@ input:focus, select:focus {
 .spinner div:nth-child(7) { transform: rotate(270deg) translateY(-10px); animation-delay: 0.7s; }
 .spinner div:nth-child(8) { transform: rotate(315deg) translateY(-10px); animation-delay: 0.8s; }
 
-@keyframes spin {
-    0% { opacity: 1; }
-    100% { opacity: 0.1; }
+.summary {
+  display: flex;
+  flex-direction: column
+}
+
+.summaryDetails {
+  font-weight: bold;
+  margin-bottom: 8px;
 }
 
 .topStrip {
   background-color: #3B76EC;
   height: 16px
 }
+
+@media (min-width: 644px) {
+  .formEntryDetails {
+    flex-direction: row;
+  }
+
+  .formEntryDetails .entry {
+    flex-direction: column;
+    gap: 24px;
+    padding: 24px 24px 32px;
+  }
+
+  .summary {
+    flex-direction: row;
+    gap: 16px
+  }
+}
+
+@keyframes spin {
+  0% { opacity: 1; }
+  100% { opacity: 0.1; }
+}
+
